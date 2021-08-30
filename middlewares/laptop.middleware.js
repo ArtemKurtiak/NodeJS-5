@@ -3,7 +3,6 @@ const { Laptop } = require('../db');
 const { BAD_REQUEST, NOT_FOUND } = require('../constants/status-codes.enum');
 const validateObject = require('../hooks/validateObject');
 const { getLaptopByIdValidator, createLaptopValidator, updateLaptopValidator } = require('../validators/laptop.validator');
-const { getUserByIdValidator, updateUserValidator } = require('../validators/user.validator');
 
 module.exports = {
     isFullDataInLaptopRequest: (req, res, next) => {
@@ -12,9 +11,11 @@ module.exports = {
                 errorValue,
                 errorMessage
             ] = validateObject(createLaptopValidator, req.body);
+
             if (errorMessage) {
                 throw new CustomError(errorMessage, BAD_REQUEST);
             }
+
             req.body = errorValue;
 
             next();
